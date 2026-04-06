@@ -508,62 +508,85 @@ At ~500 tokens per exchange:
 // ---------------------------------------------------------------------------
 const CITIES = [
   // North America
-  { label: 'Los Angeles',    tz: 'America/Los_Angeles',             flag: '🇺🇸', region: 'North America' },
-  { label: 'Denver',         tz: 'America/Denver',                  flag: '🇺🇸', region: 'North America' },
-  { label: 'Chicago',        tz: 'America/Chicago',                 flag: '🇺🇸', region: 'North America' },
-  { label: 'New York',       tz: 'America/New_York',                flag: '🇺🇸', region: 'North America' },
-  { label: 'Toronto',        tz: 'America/Toronto',                 flag: '🇨🇦', region: 'North America' },
-  { label: 'Vancouver',      tz: 'America/Vancouver',               flag: '🇨🇦', region: 'North America' },
-  { label: 'Mexico City',    tz: 'America/Mexico_City',             flag: '🇲🇽', region: 'North America' },
+  { label: 'Los Angeles',    tz: 'America/Los_Angeles',             flag: '🇺🇸', region: 'North America',       lat:  34.05, lon: -118.24 },
+  { label: 'Denver',         tz: 'America/Denver',                  flag: '🇺🇸', region: 'North America',       lat:  39.74, lon: -104.98 },
+  { label: 'Chicago',        tz: 'America/Chicago',                 flag: '🇺🇸', region: 'North America',       lat:  41.88, lon:  -87.63 },
+  { label: 'New York',       tz: 'America/New_York',                flag: '🇺🇸', region: 'North America',       lat:  40.71, lon:  -74.01 },
+  { label: 'Toronto',        tz: 'America/Toronto',                 flag: '🇨🇦', region: 'North America',       lat:  43.65, lon:  -79.38 },
+  { label: 'Vancouver',      tz: 'America/Vancouver',               flag: '🇨🇦', region: 'North America',       lat:  49.28, lon: -123.12 },
+  { label: 'Mexico City',    tz: 'America/Mexico_City',             flag: '🇲🇽', region: 'North America',       lat:  19.43, lon:  -99.13 },
   // South America
-  { label: 'São Paulo',      tz: 'America/Sao_Paulo',               flag: '🇧🇷', region: 'South America' },
-  { label: 'Buenos Aires',   tz: 'America/Argentina/Buenos_Aires',  flag: '🇦🇷', region: 'South America' },
-  { label: 'Bogotá',         tz: 'America/Bogota',                  flag: '🇨🇴', region: 'South America' },
-  { label: 'Santiago',       tz: 'America/Santiago',                flag: '🇨🇱', region: 'South America' },
-  { label: 'Lima',           tz: 'America/Lima',                    flag: '🇵🇪', region: 'South America' },
+  { label: 'São Paulo',      tz: 'America/Sao_Paulo',               flag: '🇧🇷', region: 'South America',       lat: -23.55, lon:  -46.63 },
+  { label: 'Buenos Aires',   tz: 'America/Argentina/Buenos_Aires',  flag: '🇦🇷', region: 'South America',       lat: -34.60, lon:  -58.38 },
+  { label: 'Bogotá',         tz: 'America/Bogota',                  flag: '🇨🇴', region: 'South America',       lat:   4.71, lon:  -74.07 },
+  { label: 'Santiago',       tz: 'America/Santiago',                flag: '🇨🇱', region: 'South America',       lat: -33.45, lon:  -70.67 },
+  { label: 'Lima',           tz: 'America/Lima',                    flag: '🇵🇪', region: 'South America',       lat: -12.05, lon:  -77.04 },
   // Europe
-  { label: 'London',         tz: 'Europe/London',                   flag: '🇬🇧', region: 'Europe' },
-  { label: 'Lisbon',         tz: 'Europe/Lisbon',                   flag: '🇵🇹', region: 'Europe' },
-  { label: 'Paris',          tz: 'Europe/Paris',                    flag: '🇫🇷', region: 'Europe' },
-  { label: 'Berlin',         tz: 'Europe/Berlin',                   flag: '🇩🇪', region: 'Europe' },
-  { label: 'Amsterdam',      tz: 'Europe/Amsterdam',                flag: '🇳🇱', region: 'Europe' },
-  { label: 'Madrid',         tz: 'Europe/Madrid',                   flag: '🇪🇸', region: 'Europe' },
-  { label: 'Rome',           tz: 'Europe/Rome',                     flag: '🇮🇹', region: 'Europe' },
-  { label: 'Stockholm',      tz: 'Europe/Stockholm',                flag: '🇸🇪', region: 'Europe' },
-  { label: 'Warsaw',         tz: 'Europe/Warsaw',                   flag: '🇵🇱', region: 'Europe' },
-  { label: 'Athens',         tz: 'Europe/Athens',                   flag: '🇬🇷', region: 'Europe' },
-  { label: 'Istanbul',       tz: 'Europe/Istanbul',                 flag: '🇹🇷', region: 'Europe' },
-  { label: 'Moscow',         tz: 'Europe/Moscow',                   flag: '🇷🇺', region: 'Europe' },
+  { label: 'London',         tz: 'Europe/London',                   flag: '🇬🇧', region: 'Europe',              lat:  51.51, lon:   -0.13 },
+  { label: 'Lisbon',         tz: 'Europe/Lisbon',                   flag: '🇵🇹', region: 'Europe',              lat:  38.72, lon:   -9.14 },
+  { label: 'Paris',          tz: 'Europe/Paris',                    flag: '🇫🇷', region: 'Europe',              lat:  48.85, lon:    2.35 },
+  { label: 'Berlin',         tz: 'Europe/Berlin',                   flag: '🇩🇪', region: 'Europe',              lat:  52.52, lon:   13.41 },
+  { label: 'Amsterdam',      tz: 'Europe/Amsterdam',                flag: '🇳🇱', region: 'Europe',              lat:  52.37, lon:    4.90 },
+  { label: 'Madrid',         tz: 'Europe/Madrid',                   flag: '🇪🇸', region: 'Europe',              lat:  40.42, lon:   -3.70 },
+  { label: 'Rome',           tz: 'Europe/Rome',                     flag: '🇮🇹', region: 'Europe',              lat:  41.90, lon:   12.50 },
+  { label: 'Stockholm',      tz: 'Europe/Stockholm',                flag: '🇸🇪', region: 'Europe',              lat:  59.33, lon:   18.07 },
+  { label: 'Warsaw',         tz: 'Europe/Warsaw',                   flag: '🇵🇱', region: 'Europe',              lat:  52.23, lon:   21.01 },
+  { label: 'Athens',         tz: 'Europe/Athens',                   flag: '🇬🇷', region: 'Europe',              lat:  37.98, lon:   23.73 },
+  { label: 'Istanbul',       tz: 'Europe/Istanbul',                 flag: '🇹🇷', region: 'Europe',              lat:  41.01, lon:   28.95 },
+  { label: 'Moscow',         tz: 'Europe/Moscow',                   flag: '🇷🇺', region: 'Europe',              lat:  55.75, lon:   37.62 },
   // Africa & Middle East
-  { label: 'Casablanca',     tz: 'Africa/Casablanca',               flag: '🇲🇦', region: 'Africa & Middle East' },
-  { label: 'Lagos',          tz: 'Africa/Lagos',                    flag: '🇳🇬', region: 'Africa & Middle East' },
-  { label: 'Cairo',          tz: 'Africa/Cairo',                    flag: '🇪🇬', region: 'Africa & Middle East' },
-  { label: 'Nairobi',        tz: 'Africa/Nairobi',                  flag: '🇰🇪', region: 'Africa & Middle East' },
-  { label: 'Johannesburg',   tz: 'Africa/Johannesburg',             flag: '🇿🇦', region: 'Africa & Middle East' },
-  { label: 'Dubai',          tz: 'Asia/Dubai',                      flag: '🇦🇪', region: 'Africa & Middle East' },
-  { label: 'Riyadh',         tz: 'Asia/Riyadh',                     flag: '🇸🇦', region: 'Africa & Middle East' },
-  { label: 'Tel Aviv',       tz: 'Asia/Jerusalem',                  flag: '🇮🇱', region: 'Africa & Middle East' },
+  { label: 'Casablanca',     tz: 'Africa/Casablanca',               flag: '🇲🇦', region: 'Africa & Middle East', lat:  33.59, lon:   -7.62 },
+  { label: 'Lagos',          tz: 'Africa/Lagos',                    flag: '🇳🇬', region: 'Africa & Middle East', lat:   6.52, lon:    3.38 },
+  { label: 'Cairo',          tz: 'Africa/Cairo',                    flag: '🇪🇬', region: 'Africa & Middle East', lat:  30.04, lon:   31.24 },
+  { label: 'Nairobi',        tz: 'Africa/Nairobi',                  flag: '🇰🇪', region: 'Africa & Middle East', lat:  -1.29, lon:   36.82 },
+  { label: 'Johannesburg',   tz: 'Africa/Johannesburg',             flag: '🇿🇦', region: 'Africa & Middle East', lat: -26.20, lon:   28.04 },
+  { label: 'Dubai',          tz: 'Asia/Dubai',                      flag: '🇦🇪', region: 'Africa & Middle East', lat:  25.20, lon:   55.27 },
+  { label: 'Riyadh',         tz: 'Asia/Riyadh',                     flag: '🇸🇦', region: 'Africa & Middle East', lat:  24.69, lon:   46.72 },
+  { label: 'Tel Aviv',       tz: 'Asia/Jerusalem',                  flag: '🇮🇱', region: 'Africa & Middle East', lat:  32.09, lon:   34.78 },
   // Asia
-  { label: 'Karachi',        tz: 'Asia/Karachi',                    flag: '🇵🇰', region: 'Asia' },
-  { label: 'Mumbai / Delhi', tz: 'Asia/Kolkata',                    flag: '🇮🇳', region: 'Asia' },
-  { label: 'Dhaka',          tz: 'Asia/Dhaka',                      flag: '🇧🇩', region: 'Asia' },
-  { label: 'Bangkok',        tz: 'Asia/Bangkok',                    flag: '🇹🇭', region: 'Asia' },
-  { label: 'Singapore',      tz: 'Asia/Singapore',                  flag: '🇸🇬', region: 'Asia' },
-  { label: 'Kuala Lumpur',   tz: 'Asia/Kuala_Lumpur',               flag: '🇲🇾', region: 'Asia' },
-  { label: 'Jakarta',        tz: 'Asia/Jakarta',                    flag: '🇮🇩', region: 'Asia' },
-  { label: 'Hong Kong',      tz: 'Asia/Hong_Kong',                  flag: '🇭🇰', region: 'Asia' },
-  { label: 'Shanghai',       tz: 'Asia/Shanghai',                   flag: '🇨🇳', region: 'Asia' },
-  { label: 'Taipei',         tz: 'Asia/Taipei',                     flag: '🇹🇼', region: 'Asia' },
-  { label: 'Seoul',          tz: 'Asia/Seoul',                      flag: '🇰🇷', region: 'Asia' },
-  { label: 'Tokyo',          tz: 'Asia/Tokyo',                      flag: '🇯🇵', region: 'Asia' },
+  { label: 'Karachi',        tz: 'Asia/Karachi',                    flag: '🇵🇰', region: 'Asia',                lat:  24.86, lon:   67.01 },
+  { label: 'Mumbai / Delhi', tz: 'Asia/Kolkata',                    flag: '🇮🇳', region: 'Asia',                lat:  19.08, lon:   72.88 },
+  { label: 'Dhaka',          tz: 'Asia/Dhaka',                      flag: '🇧🇩', region: 'Asia',                lat:  23.72, lon:   90.41 },
+  { label: 'Bangkok',        tz: 'Asia/Bangkok',                    flag: '🇹🇭', region: 'Asia',                lat:  13.75, lon:  100.52 },
+  { label: 'Singapore',      tz: 'Asia/Singapore',                  flag: '🇸🇬', region: 'Asia',                lat:   1.35, lon:  103.82 },
+  { label: 'Kuala Lumpur',   tz: 'Asia/Kuala_Lumpur',               flag: '🇲🇾', region: 'Asia',                lat:   3.14, lon:  101.69 },
+  { label: 'Jakarta',        tz: 'Asia/Jakarta',                    flag: '🇮🇩', region: 'Asia',                lat:  -6.21, lon:  106.85 },
+  { label: 'Hong Kong',      tz: 'Asia/Hong_Kong',                  flag: '🇭🇰', region: 'Asia',                lat:  22.32, lon:  114.17 },
+  { label: 'Shanghai',       tz: 'Asia/Shanghai',                   flag: '🇨🇳', region: 'Asia',                lat:  31.23, lon:  121.47 },
+  { label: 'Taipei',         tz: 'Asia/Taipei',                     flag: '🇹🇼', region: 'Asia',                lat:  25.03, lon:  121.57 },
+  { label: 'Seoul',          tz: 'Asia/Seoul',                      flag: '🇰🇷', region: 'Asia',                lat:  37.57, lon:  126.98 },
+  { label: 'Tokyo',          tz: 'Asia/Tokyo',                      flag: '🇯🇵', region: 'Asia',                lat:  35.69, lon:  139.69 },
   // Oceania
-  { label: 'Perth',          tz: 'Australia/Perth',                 flag: '🇦🇺', region: 'Oceania' },
-  { label: 'Adelaide',       tz: 'Australia/Adelaide',              flag: '🇦🇺', region: 'Oceania' },
-  { label: 'Brisbane',       tz: 'Australia/Brisbane',              flag: '🇦🇺', region: 'Oceania' },
-  { label: 'Sydney',         tz: 'Australia/Sydney',                flag: '🇦🇺', region: 'Oceania' },
-  { label: 'Melbourne',      tz: 'Australia/Melbourne',             flag: '🇦🇺', region: 'Oceania' },
-  { label: 'Auckland',       tz: 'Pacific/Auckland',                flag: '🇳🇿', region: 'Oceania' },
+  { label: 'Perth',          tz: 'Australia/Perth',                 flag: '🇦🇺', region: 'Oceania',             lat: -31.95, lon:  115.86 },
+  { label: 'Adelaide',       tz: 'Australia/Adelaide',              flag: '🇦🇺', region: 'Oceania',             lat: -34.93, lon:  138.60 },
+  { label: 'Brisbane',       tz: 'Australia/Brisbane',              flag: '🇦🇺', region: 'Oceania',             lat: -27.47, lon:  153.02 },
+  { label: 'Sydney',         tz: 'Australia/Sydney',                flag: '🇦🇺', region: 'Oceania',             lat: -33.87, lon:  151.21 },
+  { label: 'Melbourne',      tz: 'Australia/Melbourne',             flag: '🇦🇺', region: 'Oceania',             lat: -37.81, lon:  144.96 },
+  { label: 'Auckland',       tz: 'Pacific/Auckland',                flag: '🇳🇿', region: 'Oceania',             lat: -36.86, lon:  174.77 },
 ];
+
+// ---------------------------------------------------------------------------
+// Geolocation helpers
+// ---------------------------------------------------------------------------
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) ** 2 +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function findNearestCity(lat, lon) {
+  let best = CITIES[0], bestDist = Infinity;
+  CITIES.forEach(c => {
+    const d = haversineKm(lat, lon, c.lat, c.lon);
+    if (d < bestDist) { bestDist = d; best = c; }
+  });
+  return best;
+}
 
 // ---------------------------------------------------------------------------
 // Time helpers
@@ -865,10 +888,26 @@ function updateProgress(cb) {
 }
 
 // ---------------------------------------------------------------------------
-// Init
+// Init — try GPS first, fall back to timezone detection
 // ---------------------------------------------------------------------------
-buildCitySelector();
+buildCitySelector(); // applies timezone-detected city immediately
 setInterval(updateClock, 1000);
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const city = findNearestCity(pos.coords.latitude, pos.coords.longitude);
+      document.getElementById('city-select').value = city.tz;
+      applyCity(city);
+      // Update hero tag to show GPS source
+      const tag = document.getElementById('hero-tag');
+      tag.title = `Detected via GPS — ${Math.round(pos.coords.accuracy)}m accuracy`;
+      tag.style.cursor = 'default';
+    },
+    () => { /* denied or unavailable — timezone detection already applied */ },
+    { timeout: 8000, maximumAge: 300000, enableHighAccuracy: false }
+  );
+}
 </script>
 </body>
 </html>
