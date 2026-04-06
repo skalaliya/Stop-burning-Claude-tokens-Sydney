@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stop Burning Claude Tokens — A Sydney Guide</title>
-  <meta name="description" content="10 practical habits to get way more out of Claude without hitting limits. Adapted for Sydney, Australia." />
+  <title>Stop Burning Claude Tokens — Global Guide</title>
+  <meta name="description" content="10 practical habits to get way more out of Claude without hitting limits. See your local peak hours and best working times." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
@@ -45,12 +45,27 @@
     /* Hero */
     .hero { margin-bottom: 32px; }
 
+    .hero-top { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+
     .hero-tag {
       display: inline-flex; align-items: center; gap: 6px;
       background: var(--accent-lt); color: var(--accent);
       font-size: 12px; font-weight: 600; letter-spacing: .04em;
-      padding: 4px 12px; border-radius: 99px; margin-bottom: 18px;
+      padding: 4px 12px; border-radius: 99px;
     }
+
+    #city-select {
+      font-family: inherit;
+      font-size: 12px; font-weight: 600;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px 10px;
+      cursor: pointer;
+      appearance: auto;
+    }
+    #city-select:focus { outline: 2px solid var(--accent); border-color: transparent; }
 
     .hero h1 {
       font-family: 'Lora', Georgia, serif;
@@ -150,7 +165,7 @@
     .callout-info   { background: var(--blue-lt);  border-left: 3px solid var(--blue);   color: #1e3a5f; }
     .callout-warn   { background: var(--amber-lt); border-left: 3px solid var(--amber);  color: #78350f; }
     .callout-green  { background: var(--green-lt); border-left: 3px solid var(--green);  color: #14532d; }
-    .callout-sydney { background: #fff7f0;          border-left: 3px solid var(--accent); color: #7c2d12; }
+    .callout-local  { background: #fff7f0;          border-left: 3px solid var(--accent); color: #7c2d12; }
     .callout strong { font-weight: 700; }
 
     .code-block {
@@ -214,7 +229,10 @@
 <div class="page">
 
   <header class="hero">
-    <div class="hero-tag">🇦🇺 Sydney Edition</div>
+    <div class="hero-top">
+      <div class="hero-tag" id="hero-tag">🌍 Detecting city…</div>
+      <select id="city-select" onchange="onCityChange(this.value)" title="Change your city"></select>
+    </div>
     <h1>Stop burning<br><em>Claude tokens.</em></h1>
     <p class="hero-sub">Claude doesn't count messages — it counts tokens. These 10 habits will stretch your plan further and keep you out of the limit wall.</p>
     <div class="hero-meta">
@@ -222,18 +240,18 @@
       <span class="dot"></span>
       <span>10 habits</span>
       <span class="dot"></span>
-      <span>Adapted for Sydney, AU</span>
+      <span id="hero-location">Your location</span>
     </div>
   </header>
 
   <!-- Live status -->
   <div class="status-bar">
     <div>
-      <div class="s-label">Sydney time</div>
-      <div class="s-val" id="syd-time">—</div>
+      <div class="s-label" id="local-time-label">Your local time</div>
+      <div class="s-val" id="local-time">—</div>
     </div>
     <div>
-      <div class="s-label">Peak window (AEST)</div>
+      <div class="s-label" id="peak-window-label">US peak (your time)</div>
       <div class="s-val" id="peak-window">—</div>
     </div>
     <div class="peak-badge good" id="peak-badge">
@@ -349,7 +367,7 @@ At ~500 tokens per exchange:
         <span class="tip-chevron">⌄</span>
       </button>
       <div class="tip-body"><div class="tip-inner">
-        <p>Without saved context, every chat wastes 3–5 messages just setting Claude up: "I'm a marketer, I write casually, short paragraphs, Australian spelling…"</p>
+        <p>Without saved context, every chat wastes 3–5 messages just setting Claude up: "I'm a marketer, I write casually, short paragraphs…"</p>
         <p>Go to <strong>Settings → Memory &amp; User Preferences</strong>. Write your role, tone, and working style once. Claude applies it automatically to every new chat — no setup needed.</p>
         <span class="step-tag">⚙ Settings → Memory → Set it once</span>
       </div></div>
@@ -405,10 +423,10 @@ At ~500 tokens per exchange:
       </button>
       <div class="tip-body"><div class="tip-inner">
         <p>Claude uses a <strong>rolling 5-hour window</strong> — not a midnight reset. Tokens you used at 9am stop counting toward your limit by 2pm. Burning your entire allowance in one morning session wastes most of your daily capacity.</p>
-        <div class="callout callout-sydney">
-          🇦🇺 <strong>Sydney tip:</strong> Try splitting into three sessions — morning (~8–10am), a midday break (~1–2pm), and an evening wind-down (~7–9pm). Each session benefits from fresh headroom as old usage rolls off.
+        <div class="callout callout-local" id="tip08-callout">
+          Calculating your local sessions…
         </div>
-        <span class="step-tag">◷ Morning → Midday → Evening</span>
+        <span class="step-tag">◷ Spread sessions. Let old usage roll off.</span>
       </div></div>
     </div>
 
@@ -423,11 +441,11 @@ At ~500 tokens per exchange:
       </button>
       <div class="tip-body"><div class="tip-inner">
         <p>From 26 March 2026, Anthropic burns through your 5-hour limit faster during US peak hours — <strong>5am–11am Pacific Time on weekdays.</strong> Same prompt, higher cost to your limit.</p>
-        <div class="callout callout-sydney" id="sydney-peak-callout">
-          🇦🇺 Calculating your Sydney peak window…
+        <div class="callout callout-local" id="tip09-callout">
+          Calculating your local peak window…
         </div>
-        <p>Schedule intensive work — long coding sessions, document analysis, big rewrites — outside that window. Evenings and weekends in Sydney are almost always off-peak.</p>
-        <span class="step-tag">🌙 Evenings &amp; weekends = free real estate</span>
+        <p>Schedule intensive work — long coding sessions, document analysis, big rewrites — outside that window.</p>
+        <span class="step-tag">🌙 Off-peak = better token value</span>
       </div></div>
     </div>
 
@@ -469,105 +487,388 @@ At ~500 tokens per exchange:
   <!-- Banner -->
   <div class="banner">
     <div class="banner-emoji">🌙</div>
-    <h2>Sydney's golden rule</h2>
-    <p>Your evenings and weekends naturally fall <strong>outside US peak hours.</strong> That's when your tokens go furthest — save intensive work for then.</p>
-    <div class="time-grid">
-      <div class="time-slot"><div class="ts-label">Morning</div><div class="ts-val">8–10am</div></div>
-      <div class="time-slot"><div class="ts-label">Midday</div><div class="ts-val">1–2pm</div></div>
-      <div class="time-slot"><div class="ts-label">Best 🌟</div><div class="ts-val">7–10pm</div></div>
+    <h2 id="banner-headline">Your golden rule</h2>
+    <p id="banner-body">Loading your best times…</p>
+    <div class="time-grid" id="banner-time-grid">
+      <div class="time-slot"><div class="ts-label">Session 1</div><div class="ts-val">—</div></div>
+      <div class="time-slot"><div class="ts-label">Session 2</div><div class="ts-val">—</div></div>
+      <div class="time-slot"><div class="ts-label">Best 🌟</div><div class="ts-val">—</div></div>
     </div>
   </div>
 
   <footer>
-    <p>Original thread by <a href="https://x.com/0x_kaize" target="_blank">@0x_kaize</a> · Adapted &amp; designed for Sydney, Australia</p>
+    <p>Original thread by <a href="https://x.com/0x_kaize" target="_blank">@0x_kaize</a> · <span id="footer-location">Global Edition</span></p>
     <p style="margin-top:6px;font-style:italic;color:#a8a29e">Claude counts tokens, not messages.</p>
   </footer>
 
 </div>
 <script>
-  function toggleTip(btn) {
-    btn.closest('.tip').classList.toggle('open');
-  }
+// ---------------------------------------------------------------------------
+// City database
+// ---------------------------------------------------------------------------
+const CITIES = [
+  // North America
+  { label: 'Los Angeles',    tz: 'America/Los_Angeles',             flag: '🇺🇸', region: 'North America' },
+  { label: 'Denver',         tz: 'America/Denver',                  flag: '🇺🇸', region: 'North America' },
+  { label: 'Chicago',        tz: 'America/Chicago',                 flag: '🇺🇸', region: 'North America' },
+  { label: 'New York',       tz: 'America/New_York',                flag: '🇺🇸', region: 'North America' },
+  { label: 'Toronto',        tz: 'America/Toronto',                 flag: '🇨🇦', region: 'North America' },
+  { label: 'Vancouver',      tz: 'America/Vancouver',               flag: '🇨🇦', region: 'North America' },
+  { label: 'Mexico City',    tz: 'America/Mexico_City',             flag: '🇲🇽', region: 'North America' },
+  // South America
+  { label: 'São Paulo',      tz: 'America/Sao_Paulo',               flag: '🇧🇷', region: 'South America' },
+  { label: 'Buenos Aires',   tz: 'America/Argentina/Buenos_Aires',  flag: '🇦🇷', region: 'South America' },
+  { label: 'Bogotá',         tz: 'America/Bogota',                  flag: '🇨🇴', region: 'South America' },
+  { label: 'Santiago',       tz: 'America/Santiago',                flag: '🇨🇱', region: 'South America' },
+  { label: 'Lima',           tz: 'America/Lima',                    flag: '🇵🇪', region: 'South America' },
+  // Europe
+  { label: 'London',         tz: 'Europe/London',                   flag: '🇬🇧', region: 'Europe' },
+  { label: 'Lisbon',         tz: 'Europe/Lisbon',                   flag: '🇵🇹', region: 'Europe' },
+  { label: 'Paris',          tz: 'Europe/Paris',                    flag: '🇫🇷', region: 'Europe' },
+  { label: 'Berlin',         tz: 'Europe/Berlin',                   flag: '🇩🇪', region: 'Europe' },
+  { label: 'Amsterdam',      tz: 'Europe/Amsterdam',                flag: '🇳🇱', region: 'Europe' },
+  { label: 'Madrid',         tz: 'Europe/Madrid',                   flag: '🇪🇸', region: 'Europe' },
+  { label: 'Rome',           tz: 'Europe/Rome',                     flag: '🇮🇹', region: 'Europe' },
+  { label: 'Stockholm',      tz: 'Europe/Stockholm',                flag: '🇸🇪', region: 'Europe' },
+  { label: 'Warsaw',         tz: 'Europe/Warsaw',                   flag: '🇵🇱', region: 'Europe' },
+  { label: 'Athens',         tz: 'Europe/Athens',                   flag: '🇬🇷', region: 'Europe' },
+  { label: 'Istanbul',       tz: 'Europe/Istanbul',                 flag: '🇹🇷', region: 'Europe' },
+  { label: 'Moscow',         tz: 'Europe/Moscow',                   flag: '🇷🇺', region: 'Europe' },
+  // Africa & Middle East
+  { label: 'Casablanca',     tz: 'Africa/Casablanca',               flag: '🇲🇦', region: 'Africa & Middle East' },
+  { label: 'Lagos',          tz: 'Africa/Lagos',                    flag: '🇳🇬', region: 'Africa & Middle East' },
+  { label: 'Cairo',          tz: 'Africa/Cairo',                    flag: '🇪🇬', region: 'Africa & Middle East' },
+  { label: 'Nairobi',        tz: 'Africa/Nairobi',                  flag: '🇰🇪', region: 'Africa & Middle East' },
+  { label: 'Johannesburg',   tz: 'Africa/Johannesburg',             flag: '🇿🇦', region: 'Africa & Middle East' },
+  { label: 'Dubai',          tz: 'Asia/Dubai',                      flag: '🇦🇪', region: 'Africa & Middle East' },
+  { label: 'Riyadh',         tz: 'Asia/Riyadh',                     flag: '🇸🇦', region: 'Africa & Middle East' },
+  { label: 'Tel Aviv',       tz: 'Asia/Jerusalem',                  flag: '🇮🇱', region: 'Africa & Middle East' },
+  // Asia
+  { label: 'Karachi',        tz: 'Asia/Karachi',                    flag: '🇵🇰', region: 'Asia' },
+  { label: 'Mumbai / Delhi', tz: 'Asia/Kolkata',                    flag: '🇮🇳', region: 'Asia' },
+  { label: 'Dhaka',          tz: 'Asia/Dhaka',                      flag: '🇧🇩', region: 'Asia' },
+  { label: 'Bangkok',        tz: 'Asia/Bangkok',                    flag: '🇹🇭', region: 'Asia' },
+  { label: 'Singapore',      tz: 'Asia/Singapore',                  flag: '🇸🇬', region: 'Asia' },
+  { label: 'Kuala Lumpur',   tz: 'Asia/Kuala_Lumpur',               flag: '🇲🇾', region: 'Asia' },
+  { label: 'Jakarta',        tz: 'Asia/Jakarta',                    flag: '🇮🇩', region: 'Asia' },
+  { label: 'Hong Kong',      tz: 'Asia/Hong_Kong',                  flag: '🇭🇰', region: 'Asia' },
+  { label: 'Shanghai',       tz: 'Asia/Shanghai',                   flag: '🇨🇳', region: 'Asia' },
+  { label: 'Taipei',         tz: 'Asia/Taipei',                     flag: '🇹🇼', region: 'Asia' },
+  { label: 'Seoul',          tz: 'Asia/Seoul',                      flag: '🇰🇷', region: 'Asia' },
+  { label: 'Tokyo',          tz: 'Asia/Tokyo',                      flag: '🇯🇵', region: 'Asia' },
+  // Oceania
+  { label: 'Perth',          tz: 'Australia/Perth',                 flag: '🇦🇺', region: 'Oceania' },
+  { label: 'Adelaide',       tz: 'Australia/Adelaide',              flag: '🇦🇺', region: 'Oceania' },
+  { label: 'Brisbane',       tz: 'Australia/Brisbane',              flag: '🇦🇺', region: 'Oceania' },
+  { label: 'Sydney',         tz: 'Australia/Sydney',                flag: '🇦🇺', region: 'Oceania' },
+  { label: 'Melbourne',      tz: 'Australia/Melbourne',             flag: '🇦🇺', region: 'Oceania' },
+  { label: 'Auckland',       tz: 'Pacific/Auckland',                flag: '🇳🇿', region: 'Oceania' },
+];
 
-  function updateProgress(cb) {
-    const rows = document.querySelectorAll('#checklist .check-row');
-    let checked = 0;
-    rows.forEach(r => {
-      const inp = r.querySelector('input');
-      if (inp.checked) { checked++; r.classList.add('checked'); }
-      else { r.classList.remove('checked'); }
-    });
-    const total = rows.length;
-    document.getElementById('prog-count').textContent = `${checked} / ${total}`;
-    document.getElementById('prog-fill').style.width = `${(checked / total) * 100}%`;
-  }
+// ---------------------------------------------------------------------------
+// Time helpers
+// ---------------------------------------------------------------------------
 
-  function getSydneyOffset() {
-    const now = new Date();
-    const s = now.toLocaleString('en-US', { timeZone: 'Australia/Sydney', hour: 'numeric', hour12: false });
-    let diff = parseInt(s) - now.getUTCHours();
-    if (diff < -12) diff += 24;
-    if (diff > 12) diff -= 24;
-    return diff;
-  }
+// Get date parts in a given IANA timezone (DST-safe)
+function getDateParts(date, tz) {
+  const fmt = new Intl.DateTimeFormat('en-US', {
+    timeZone: tz,
+    year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric',
+    weekday: 'short', hour12: false
+  });
+  const parts = {};
+  fmt.formatToParts(date).forEach(p => { parts[p.type] = p.value; });
+  return {
+    year:    parseInt(parts.year),
+    month:   parseInt(parts.month) - 1,
+    day:     parseInt(parts.day),
+    hour:    parseInt(parts.hour) % 24,
+    minute:  parseInt(parts.minute),
+    second:  parseInt(parts.second),
+    weekday: parts.weekday // 'Mon', 'Tue', etc.
+  };
+}
 
-  function fmt12(h) {
-    h = ((h % 24) + 24) % 24;
-    const h12 = h % 12 === 0 ? 12 : h % 12;
-    return `${h12}${h < 12 ? 'am' : 'pm'}`;
-  }
+// Get UTC offset in fractional hours for a timezone at a given moment
+function getUTCOffsetHours(tz, date) {
+  date = date || new Date();
+  const utcP   = getDateParts(date, 'UTC');
+  const localP = getDateParts(date, tz);
+  const utcMs   = Date.UTC(utcP.year,   utcP.month,   utcP.day,   utcP.hour,   utcP.minute);
+  const localMs = Date.UTC(localP.year, localP.month, localP.day, localP.hour, localP.minute);
+  return (localMs - utcMs) / 3600000;
+}
 
-  let tipUpdated = false;
+// Format fractional hours to "8am", "2:30pm" etc.
+function fmt12(h) {
+  h = ((h % 24) + 24) % 24;
+  const intH = Math.floor(h);
+  const mins = Math.round((h - intH) * 60);
+  const h12  = intH % 12 === 0 ? 12 : intH % 12;
+  const mm   = mins > 0 ? `:${String(mins).padStart(2, '0')}` : '';
+  return `${h12}${mm}${intH < 12 ? 'am' : 'pm'}`;
+}
 
-  function updateClock() {
-    const now = new Date();
+// ---------------------------------------------------------------------------
+// Peak window calculation
+// US peak = Mon–Fri 5:00am–11:00am America/Los_Angeles
+// Returns { startH, endH } in the user's local timezone (fractional hours)
+// ---------------------------------------------------------------------------
+function getPeakInLocalTZ(userTz) {
+  const now = new Date();
+  const pacificOffset = getUTCOffsetHours('America/Los_Angeles', now);
+  const localOffset   = getUTCOffsetHours(userTz, now);
+  const diff = localOffset - pacificOffset;
+  const startH = ((5  + diff) % 24 + 24) % 24;
+  const endH   = ((11 + diff) % 24 + 24) % 24;
+  return { startH, endH };
+}
 
-    // Sydney clock
-    document.getElementById('syd-time').textContent = now.toLocaleTimeString('en-AU', {
-      timeZone: 'Australia/Sydney', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-    });
+// Is it currently US peak? (check LA weekday + LA hour, regardless of user's day)
+function isCurrentlyUSPeak() {
+  const now  = new Date();
+  const p    = getDateParts(now, 'America/Los_Angeles');
+  const isWd = !['Sat', 'Sun'].includes(p.weekday);
+  const h    = p.hour + p.minute / 60;
+  return isWd && h >= 5 && h < 11;
+}
 
-    // Peak window: US 5am–11am PDT (UTC-7) = UTC 12:00–18:00
-    const sydOff = getSydneyOffset();
-    const peakStartSyd = ((5 + 7) + sydOff) % 24; // 5am PDT → UTC 12 → Syd
-    const peakEndSyd   = ((11 + 7) + sydOff) % 24; // 11am PDT → UTC 18 → Syd
+// Is today a US weekday?
+function isUSWeekday() {
+  const p = getDateParts(new Date(), 'America/Los_Angeles');
+  return !['Sat', 'Sun'].includes(p.weekday);
+}
 
-    document.getElementById('peak-window').textContent = `${fmt12(peakStartSyd)} – ${fmt12(peakEndSyd)}`;
-
-    const sydNow = new Date(now.toLocaleString('en-US', { timeZone: 'Australia/Sydney' }));
-    const isWeekday = sydNow.getDay() >= 1 && sydNow.getDay() <= 5;
-    const h = sydNow.getHours() + sydNow.getMinutes() / 60;
-
-    let isPeak = false;
-    if (isWeekday) {
-      isPeak = peakStartSyd > peakEndSyd
-        ? (h >= peakStartSyd || h < peakEndSyd)
-        : (h >= peakStartSyd && h < peakEndSyd);
-    }
-
-    const badge = document.getElementById('peak-badge');
-    const txt   = document.getElementById('peak-text');
-    if (!isWeekday) {
-      badge.className = 'peak-badge good'; txt.textContent = 'Weekend — off-peak ✓';
-    } else if (isPeak) {
-      badge.className = 'peak-badge warn'; txt.textContent = 'Peak hours — go easy';
+// ---------------------------------------------------------------------------
+// Best slots algorithm
+// Finds 3 well-spaced 2-hour off-peak sessions within waking hours (6am–10pm)
+// ---------------------------------------------------------------------------
+function computeBestSlots(peakStartH, peakEndH) {
+  const candidates = [];
+  for (let h = 6; h <= 22; h++) {
+    const slotEnd = h + 2;
+    let overlaps;
+    if (peakStartH < peakEndH) {
+      // Peak doesn't cross midnight
+      overlaps = !(slotEnd <= peakStartH || h >= peakEndH);
     } else {
-      badge.className = 'peak-badge good'; txt.textContent = 'Off-peak — good to go ✓';
+      // Peak crosses midnight (e.g. Sydney where peak starts ~10pm)
+      overlaps = !(h >= peakEndH && slotEnd <= peakStartH);
     }
-
-    // Update tip 09 callout once
-    if (!tipUpdated) {
-      const el = document.getElementById('sydney-peak-callout');
-      if (el) {
-        const w = `${fmt12(peakStartSyd)} – ${fmt12(peakEndSyd)} AEST`;
-        el.innerHTML = `🇦🇺 <strong>For Sydney:</strong> US peak maps to <strong>${w}</strong> on weekdays — that's overnight into early morning your time. Your entire working day is off-peak. Just avoid heavy sessions after ${fmt12(peakStartSyd)}.`;
-        tipUpdated = true;
-      }
+    if (!overlaps) {
+      // Score: prefer 7–9am, 12–2pm, 7–9pm
+      let score = 10;
+      if (h >= 7  && h <= 9)  score = 100;
+      else if (h >= 12 && h <= 14) score = 90;
+      else if (h >= 19 && h <= 21) score = 80;
+      else if (h >= 9  && h <= 11) score = 60;
+      else if (h >= 14 && h <= 18) score = 50;
+      candidates.push({ h, score });
     }
   }
 
+  // Sort by score, then pick 3 spread at least 3h apart
+  candidates.sort((a, b) => b.score - a.score);
+  const chosen = [];
+  for (const c of candidates) {
+    if (chosen.every(s => Math.abs(s.h - c.h) >= 3)) {
+      chosen.push(c);
+      if (chosen.length === 3) break;
+    }
+  }
+
+  // If we couldn't fill 3, add from remaining
+  for (const c of candidates) {
+    if (chosen.length >= 3) break;
+    if (!chosen.find(s => s.h === c.h)) chosen.push(c);
+  }
+
+  // Sort by time of day for display
+  chosen.sort((a, b) => a.h - b.h);
+  return chosen.map(s => ({ start: s.h, end: s.h + 2 }));
+}
+
+// ---------------------------------------------------------------------------
+// Banner body copy based on when peak falls locally
+// ---------------------------------------------------------------------------
+function getBannerBody(cityLabel, peakStartH, peakEndH) {
+  // Compute midpoint of peak window (handles midnight-crossing)
+  const midH = peakStartH < peakEndH
+    ? (peakStartH + peakEndH) / 2
+    : ((peakStartH + peakEndH + 24) / 2) % 24;
+
+  if (midH >= 22 || midH < 6) {
+    return `Your entire working day naturally falls <strong>outside US peak hours.</strong> Morning, afternoon, and evening sessions all give you full token value — just avoid very late nights.`;
+  } else if (midH >= 6 && midH < 12) {
+    return `Your morning overlaps with US peak hours. <strong>Afternoons and evenings</strong> are when your tokens go furthest — save intensive sessions for then.`;
+  } else if (midH >= 12 && midH < 18) {
+    return `Midday to afternoon in ${cityLabel} hits US peak hours. <strong>Start early or work evenings</strong> for the best token value.`;
+  } else {
+    return `Your evenings fall inside US peak hours. <strong>Mornings give you the best bang for your tokens</strong> — front-load intensive work early in the day.`;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// City detection + selector setup
+// ---------------------------------------------------------------------------
+let currentCity = null;
+
+function detectCity() {
+  const browserTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let match = CITIES.find(c => c.tz === browserTz);
+  if (!match) {
+    // Try prefix match (e.g. America/Indiana/Indianapolis → America/New_York)
+    const prefix = browserTz.split('/')[0];
+    match = CITIES.find(c => c.tz.startsWith(prefix));
+  }
+  if (!match) match = CITIES.find(c => c.tz === 'America/New_York');
+  return match;
+}
+
+function buildCitySelector() {
+  const select = document.getElementById('city-select');
+  const regions = [];
+  CITIES.forEach(c => { if (!regions.includes(c.region)) regions.push(c.region); });
+
+  regions.forEach(region => {
+    const group = document.createElement('optgroup');
+    group.label = region;
+    CITIES.filter(c => c.region === region).forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.tz;
+      opt.textContent = `${c.flag} ${c.label}`;
+      group.appendChild(opt);
+    });
+    select.appendChild(group);
+  });
+
+  const detected = detectCity();
+  select.value = detected.tz;
+  applyCity(detected);
+}
+
+function onCityChange(tz) {
+  const city = CITIES.find(c => c.tz === tz) || currentCity;
+  applyCity(city);
+}
+
+// ---------------------------------------------------------------------------
+// Apply city — updates all static DOM elements, then lets the clock tick
+// ---------------------------------------------------------------------------
+function applyCity(city) {
+  currentCity = city;
+
+  const { startH, endH } = getPeakInLocalTZ(city.tz);
+  const slots = computeBestSlots(startH, endH);
+
+  // Hero tag + meta
+  document.getElementById('hero-tag').textContent = `${city.flag} ${city.label} Edition`;
+  document.getElementById('hero-location').textContent = `Adapted for ${city.label}`;
+
+  // Status bar labels
+  document.getElementById('local-time-label').textContent = `${city.label} time`;
+
+  // Tip 08 callout — spread your work
+  const slotStr = slots.map((s, i) => {
+    const label = i === 0 ? 'morning' : i === 1 ? 'midday' : 'evening';
+    return `a ${label} session (~${fmt12(s.start)}–${fmt12(s.end)})`;
+  }).join(', ');
+  document.getElementById('tip08-callout').innerHTML =
+    `${city.flag} <strong>${city.label} tip:</strong> Try splitting into three sessions — ${slotStr}. Each session benefits from fresh headroom as old usage rolls off.`;
+
+  // Tip 09 callout — peak hours
+  const peakCrossesMidnight = startH > endH;
+  let peakNote;
+  if (peakCrossesMidnight) {
+    peakNote = `US peak maps to <strong>${fmt12(startH)}–midnight and midnight–${fmt12(endH)}</strong> on weekdays — mostly overnight. Your entire working day is off-peak.`;
+  } else {
+    const midH = (startH + endH) / 2;
+    if (midH < 6 || midH >= 22) {
+      peakNote = `US peak maps to <strong>${fmt12(startH)}–${fmt12(endH)}</strong> on weekdays — overnight your time. Your working day is completely off-peak.`;
+    } else {
+      peakNote = `US peak maps to <strong>${fmt12(startH)}–${fmt12(endH)}</strong> on weekdays. Schedule intensive sessions outside that window.`;
+    }
+  }
+  document.getElementById('tip09-callout').innerHTML =
+    `${city.flag} <strong>For ${city.label}:</strong> ${peakNote}`;
+
+  // Banner
+  document.getElementById('banner-headline').textContent = `${city.label}'s golden rule`;
+  document.getElementById('banner-body').innerHTML = getBannerBody(city.label, startH, endH);
+
+  const slotLabels = ['Session 1', 'Session 2', 'Best 🌟'];
+  document.getElementById('banner-time-grid').innerHTML = slots.map((s, i) => `
+    <div class="time-slot">
+      <div class="ts-label">${slotLabels[i]}</div>
+      <div class="ts-val">${fmt12(s.start)}–${fmt12(s.end)}</div>
+    </div>
+  `).join('');
+
+  // Footer
+  document.getElementById('footer-location').textContent = `Adapted for ${city.label}`;
+
+  // Trigger immediate clock update
   updateClock();
-  setInterval(updateClock, 1000);
+}
+
+// ---------------------------------------------------------------------------
+// Live clock (runs every second)
+// ---------------------------------------------------------------------------
+function updateClock() {
+  if (!currentCity) return;
+  const now  = new Date();
+  const city = currentCity;
+
+  // Local time display
+  document.getElementById('local-time').textContent = now.toLocaleTimeString('en-US', {
+    timeZone: city.tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+  });
+
+  // Peak window in local time
+  const { startH, endH } = getPeakInLocalTZ(city.tz);
+  document.getElementById('peak-window').textContent = `${fmt12(startH)} – ${fmt12(endH)}`;
+
+  // Peak/off-peak badge
+  const isPeak    = isCurrentlyUSPeak();
+  const isWeekday = isUSWeekday();
+  const badge = document.getElementById('peak-badge');
+  const txt   = document.getElementById('peak-text');
+
+  if (!isWeekday) {
+    badge.className = 'peak-badge good'; txt.textContent = 'Weekend — off-peak ✓';
+  } else if (isPeak) {
+    badge.className = 'peak-badge warn'; txt.textContent = 'Peak hours — go easy';
+  } else {
+    badge.className = 'peak-badge good'; txt.textContent = 'Off-peak — good to go ✓';
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Checklist progress
+// ---------------------------------------------------------------------------
+function toggleTip(btn) {
+  btn.closest('.tip').classList.toggle('open');
+}
+
+function updateProgress(cb) {
+  const rows = document.querySelectorAll('#checklist .check-row');
+  let checked = 0;
+  rows.forEach(r => {
+    const inp = r.querySelector('input');
+    if (inp.checked) { checked++; r.classList.add('checked'); }
+    else { r.classList.remove('checked'); }
+  });
+  const total = rows.length;
+  document.getElementById('prog-count').textContent = `${checked} / ${total}`;
+  document.getElementById('prog-fill').style.width = `${(checked / total) * 100}%`;
+}
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+buildCitySelector();
+setInterval(updateClock, 1000);
 </script>
 </body>
 </html>
