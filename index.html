@@ -4,7 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stop Burning Claude Tokens — Global Guide</title>
-  <meta name="description" content="10 practical habits to get way more out of Claude without hitting limits. See your local peak hours and best working times." />
+  <meta name="description" content="10 practical habits to get way more out of Claude without hitting limits. Live off-peak tracking for your city — auto-detected worldwide." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/claude-logo.svg" />
+
+  <!-- Open Graph (LinkedIn, Facebook, iMessage, Slack…) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="Stop Burning Claude Tokens — 10 Habits That Work" />
+  <meta property="og:description" content="Claude counts tokens, not messages. These 10 habits stretch your plan further — with live off-peak tracking auto-detected for your city." />
+  <meta property="og:image"       content="/og-image.svg" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:site_name"   content="Stop Burning Claude Tokens" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Stop Burning Claude Tokens — 10 Habits That Work" />
+  <meta name="twitter:description" content="Claude counts tokens, not messages. These 10 habits stretch your plan further — with live off-peak tracking for your city." />
+  <meta name="twitter:image"       content="/og-image.svg" />
+  <meta name="twitter:creator"     content="@0x_kaize" />
+  <meta name="twitter:site"        content="@0x_kaize" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
@@ -218,6 +239,32 @@
     .time-slot { background: rgba(255,255,255,.07); border-radius: 8px; padding: 10px 12px; text-align: center; }
     .ts-label { font-size: 11px; color: #a8a29e; font-weight: 500; margin-bottom: 4px; letter-spacing: .04em; text-transform: uppercase; }
     .ts-val { font-size: 13px; font-weight: 700; color: #fff; }
+
+    /* Share card */
+    .share-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px 24px;
+      box-shadow: var(--shadow); margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .share-label { font-size: 15px; font-weight: 700; }
+    .share-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      padding: 9px 16px; border-radius: 8px; cursor: pointer;
+      border: 1px solid var(--border); text-decoration: none;
+      transition: opacity .15s, transform .12s;
+    }
+    .share-btn:hover { opacity: .85; transform: translateY(-1px); }
+    .share-btn:active { transform: translateY(0); }
+
+    .share-x        { background: #000; color: #fff; border-color: #000; }
+    .share-linkedin { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+    .share-copy     { background: var(--bg); color: var(--text); }
+    .share-copy.copied { background: var(--green-lt); color: var(--green); border-color: var(--green); }
 
     /* Footer */
     footer { text-align: center; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); line-height: 1.7; }
@@ -493,6 +540,25 @@ At ~500 tokens per exchange:
       <div class="time-slot"><div class="ts-label">Session 1</div><div class="ts-val">—</div></div>
       <div class="time-slot"><div class="ts-label">Session 2</div><div class="ts-val">—</div></div>
       <div class="time-slot"><div class="ts-label">Best 🌟</div><div class="ts-val">—</div></div>
+    </div>
+  </div>
+
+  <!-- Share -->
+  <div class="share-card">
+    <span class="share-label">Found this useful? Share it. 🔥</span>
+    <div class="share-row">
+      <a class="share-btn share-x" href="#" onclick="shareX(); return false;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        Share on X
+      </a>
+      <a class="share-btn share-linkedin" href="#" onclick="shareLinkedIn(); return false;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <button class="share-btn share-copy" id="copy-btn" onclick="copyLink()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span id="copy-label">Copy link</span>
+      </button>
     </div>
   </div>
 
@@ -885,6 +951,30 @@ function updateProgress(cb) {
   const total = rows.length;
   document.getElementById('prog-count').textContent = `${checked} / ${total}`;
   document.getElementById('prog-fill').style.width = `${(checked / total) * 100}%`;
+}
+
+// ---------------------------------------------------------------------------
+// Share functions
+// ---------------------------------------------------------------------------
+function shareX() {
+  const text = `Stop burning Claude tokens 🔥\n\n10 habits to stretch your Claude plan further — with live off-peak tracking auto-detected for your city.\n\nVia @0x_kaize\n\n`;
+  const url  = window.location.href;
+  window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener');
+}
+
+function shareLinkedIn() {
+  const url = window.location.href;
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener');
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn   = document.getElementById('copy-btn');
+    const label = document.getElementById('copy-label');
+    btn.classList.add('copied');
+    label.textContent = 'Copied!';
+    setTimeout(() => { btn.classList.remove('copied'); label.textContent = 'Copy link'; }, 2000);
+  });
 }
 
 // ---------------------------------------------------------------------------
