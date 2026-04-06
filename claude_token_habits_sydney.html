@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stop Burning Claude Tokens — A Sydney Guide</title>
+  <meta name="description" content="10 practical habits to get way more out of Claude without hitting limits. Adapted for Sydney, Australia." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #f8f6f1;
+      --surface:   #ffffff;
+      --border:    #e5e0d5;
+      --text:      #1c1917;
+      --muted:     #78716c;
+      --accent:    #e05c2a;
+      --accent-lt: #fff2ec;
+      --green:     #16a34a;
+      --green-lt:  #f0fdf4;
+      --amber:     #d97706;
+      --amber-lt:  #fffbeb;
+      --blue-lt:   #eff6ff;
+      --blue:      #2563eb;
+      --radius:    12px;
+      --shadow:    0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page { max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    /* Hero */
+    .hero { margin-bottom: 32px; }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent-lt); color: var(--accent);
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+      padding: 4px 12px; border-radius: 99px; margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Lora', Georgia, serif;
+      font-size: clamp(30px, 6vw, 46px);
+      font-weight: 600; line-height: 1.2;
+      letter-spacing: -.02em; margin-bottom: 14px;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+
+    .hero-sub { font-size: 16px; color: var(--muted); line-height: 1.65; max-width: 520px; }
+
+    .hero-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 18px; font-size: 13px; color: var(--muted);
+      flex-wrap: wrap;
+    }
+    .hero-meta .dot { width: 3px; height: 3px; background: var(--muted); border-radius: 99px; }
+    .hero-meta a { color: inherit; text-decoration: underline; }
+
+    /* Status bar */
+    .status-bar {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px;
+      margin-bottom: 32px;
+      display: grid; grid-template-columns: 1fr 1fr auto;
+      align-items: center; gap: 16px; box-shadow: var(--shadow);
+    }
+    @media (max-width: 520px) {
+      .status-bar { grid-template-columns: 1fr 1fr; }
+      .status-bar .peak-badge { grid-column: 1/-1; justify-self: start; }
+    }
+
+    .s-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .s-val { font-size: 18px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+
+    .peak-badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 600; padding: 8px 14px; border-radius: 8px;
+    }
+    .peak-badge.good { background: var(--green-lt); color: var(--green); }
+    .peak-badge.warn { background: #fff1f0; color: #c0392b; }
+    .pulse { width: 8px; height: 8px; border-radius: 99px; background: currentColor; flex-shrink: 0; }
+    .peak-badge.warn .pulse { animation: blink 1.4s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* Progress */
+    .progress-section { margin-bottom: 28px; }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .progress-label { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: .03em; }
+    .progress-count { font-size: 13px; font-weight: 700; color: var(--accent); }
+    .progress-track { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 99px; width: 0%; transition: width .4s cubic-bezier(.4,0,.2,1); }
+
+    /* Tips */
+    .tips { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+
+    .tip {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      box-shadow: var(--shadow); transition: border-color .18s, box-shadow .18s;
+    }
+    .tip:hover { border-color: #d0c8bc; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .tip.open  { border-color: var(--accent); }
+
+    .tip-btn {
+      width: 100%; display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px; background: none; border: none; cursor: pointer; text-align: left;
+    }
+
+    .tip-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; flex-shrink: 0; background: var(--bg);
+      transition: background .18s;
+    }
+    .tip.open .tip-icon { background: var(--accent-lt); }
+
+    .tip-text { flex: 1; }
+    .tip-num { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .tip-title { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+    .tip-chevron { color: var(--muted); flex-shrink: 0; font-size: 18px; transition: transform .22s cubic-bezier(.4,0,.2,1), color .18s; }
+    .tip.open .tip-chevron { transform: rotate(180deg); color: var(--accent); }
+
+    .tip-body { max-height: 0; overflow: hidden; transition: max-height .35s cubic-bezier(.4,0,.2,1); }
+    .tip.open .tip-body { max-height: 1200px; }
+
+    .tip-inner {
+      padding: 18px 20px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .tip-inner p { font-size: 15px; line-height: 1.7; color: #44403c; margin-bottom: 12px; }
+    .tip-inner p:last-child { margin-bottom: 0; }
+    .tip-inner strong { font-weight: 700; color: var(--text); }
+
+    .callout { border-radius: 8px; padding: 14px 16px; margin: 14px 0; font-size: 14px; line-height: 1.7; }
+    .callout-info   { background: var(--blue-lt);  border-left: 3px solid var(--blue);   color: #1e3a5f; }
+    .callout-warn   { background: var(--amber-lt); border-left: 3px solid var(--amber);  color: #78350f; }
+    .callout-green  { background: var(--green-lt); border-left: 3px solid var(--green);  color: #14532d; }
+    .callout-sydney { background: #fff7f0;          border-left: 3px solid var(--accent); color: #7c2d12; }
+    .callout strong { font-weight: 700; }
+
+    .code-block {
+      background: #1c1917; color: #e7e5e4;
+      border-radius: 8px; padding: 14px 16px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 13px; line-height: 1.9; margin: 14px 0; overflow-x: auto;
+    }
+    .code-block .hi { color: #fb923c; }
+
+    .step-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--text); color: #fff;
+      font-size: 12px; font-weight: 600; padding: 6px 12px;
+      border-radius: 6px; margin-top: 10px;
+    }
+
+    /* Checklist card */
+    .checklist-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      box-shadow: var(--shadow); margin-bottom: 24px;
+    }
+    .card-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+
+    .check-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 8px; cursor: pointer;
+      transition: background .12s;
+    }
+    .check-row:hover { background: var(--bg); }
+    .check-row input { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+    .check-row span { font-size: 14px; font-weight: 500; }
+    .check-row.checked span { color: var(--muted); text-decoration: line-through; font-weight: 400; }
+
+    /* Banner */
+    .banner {
+      background: linear-gradient(135deg, #1c1917 0%, #292524 100%);
+      color: #fff; border-radius: var(--radius); padding: 28px; margin-bottom: 24px;
+    }
+    .banner-emoji { font-size: 32px; margin-bottom: 10px; }
+    .banner h2 { font-family: 'Lora', serif; font-size: 22px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+    .banner p { font-size: 14px; line-height: 1.65; color: #a8a29e; }
+    .banner strong { color: #fff; font-weight: 600; }
+
+    .time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 16px; }
+    @media (max-width: 440px) { .time-grid { grid-template-columns: 1fr 1fr; } }
+
+    .time-slot { background: rgba(255,255,255,.07); border-radius: 8px; padding: 10px 12px; text-align: center; }
+    .ts-label { font-size: 11px; color: #a8a29e; font-weight: 500; margin-bottom: 4px; letter-spacing: .04em; text-transform: uppercase; }
+    .ts-val { font-size: 13px; font-weight: 700; color: #fff; }
+
+    /* Footer */
+    footer { text-align: center; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); line-height: 1.7; }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="hero-tag">🇦🇺 Sydney Edition</div>
+    <h1>Stop burning<br><em>Claude tokens.</em></h1>
+    <p class="hero-sub">Claude doesn't count messages — it counts tokens. These 10 habits will stretch your plan further and keep you out of the limit wall.</p>
+    <div class="hero-meta">
+      <span>Via <a href="https://x.com/0x_kaize" target="_blank">@0x_kaize</a></span>
+      <span class="dot"></span>
+      <span>10 habits</span>
+      <span class="dot"></span>
+      <span>Adapted for Sydney, AU</span>
+    </div>
+  </header>
+
+  <!-- Live status -->
+  <div class="status-bar">
+    <div>
+      <div class="s-label">Sydney time</div>
+      <div class="s-val" id="syd-time">—</div>
+    </div>
+    <div>
+      <div class="s-label">Peak window (AEST)</div>
+      <div class="s-val" id="peak-window">—</div>
+    </div>
+    <div class="peak-badge good" id="peak-badge">
+      <span class="pulse"></span>
+      <span id="peak-text">Loading…</span>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-section">
+    <div class="progress-header">
+      <span class="progress-label">Habits checked off today</span>
+      <span class="progress-count" id="prog-count">0 / 7</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <!-- Tips accordion -->
+  <div class="tips">
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">✏️</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 01</div>
+          <div class="tip-title">Edit your message — don't send a follow-up</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>When Claude gets something wrong, it's tempting to type "No, I meant…" and send again. Don't. Every follow-up stacks onto the history, and Claude re-reads <strong>all of it</strong> every single turn.</p>
+        <div class="code-block">
+Cost formula: <span class="hi">S × N(N+1) / 2</span>
+(S = avg tokens/exchange, N = number of messages)
+
+At ~500 tokens per exchange:
+   5 messages →    7,500 tokens
+  10 messages →   27,500 tokens
+  20 messages →  105,000 tokens
+  30 messages →  232,000 tokens  ← 31× more than msg 1
+        </div>
+        <p><strong>Instead:</strong> hover over your original message → click <em>Edit</em> → fix it → regenerate. The old exchange is replaced, not stacked.</p>
+        <span class="step-tag">↩ Edit first. Always.</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">🔄</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 02</div>
+          <div class="tip-title">Start a fresh chat every 15–20 messages</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>A 100-message chat at 500 tokens each burns over <strong>2.5 million tokens</strong> — the vast majority of that is just re-reading old history on loop.</p>
+        <div class="callout callout-warn">
+          ⚠️ One developer tracked his usage and found <strong>98.5% of tokens went to re-reading history.</strong> Only 1.5% produced actual output.
+        </div>
+        <p>When a chat gets long: ask Claude to summarise everything → copy it → open a new chat → paste it as your first message. Full context, fresh headroom.</p>
+        <span class="step-tag">↺ Summarise → new chat → paste</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">📦</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 03</div>
+          <div class="tip-title">Batch your questions into one message</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Three separate messages = three full context loads. One message with three tasks = one context load. You save tokens twice: fewer reloads, and you stay further from your limit.</p>
+        <div class="callout callout-info">
+          ❌ "Summarise this article"<br>
+          ❌ "Now list the main points"<br>
+          ❌ "Now suggest a headline"<br><br>
+          ✅ <strong>"Summarise this article, list the main points, and suggest a headline."</strong>
+        </div>
+        <p>Bonus: Claude often gives <em>better</em> answers when it sees the full picture upfront.</p>
+        <span class="step-tag">≡ Three questions. One prompt. Always.</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">📁</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 04</div>
+          <div class="tip-title">Upload recurring files to Projects</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Every time you drag a PDF into a new chat, Claude re-tokenises the whole thing from scratch. Use <strong>Projects</strong> instead — upload once, and every conversation inside that project references it without burning tokens again.</p>
+        <div class="callout callout-green">
+          💡 Great for: contracts, style guides, company briefs, long reference docs. This single habit can dramatically cut your token spend.
+        </div>
+        <span class="step-tag">⊕ Upload once. Reference forever.</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">🧠</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 05</div>
+          <div class="tip-title">Save your preferences in Memory</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Without saved context, every chat wastes 3–5 messages just setting Claude up: "I'm a marketer, I write casually, short paragraphs, Australian spelling…"</p>
+        <p>Go to <strong>Settings → Memory &amp; User Preferences</strong>. Write your role, tone, and working style once. Claude applies it automatically to every new chat — no setup needed.</p>
+        <span class="step-tag">⚙ Settings → Memory → Set it once</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">🔕</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 06</div>
+          <div class="tip-title">Turn off features you're not using</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Web search, connectors, and Extended Thinking all add tokens to every response — even when you don't need them. If you're writing, editing, or brainstorming, there's no reason to have search running.</p>
+        <div class="callout callout-warn">
+          ⚙️ <strong>Simple rule:</strong> if you didn't deliberately turn a feature on, turn it off. Only enable Extended Thinking if your first attempt fell short.
+        </div>
+        <span class="step-tag">✕ Off by default. On by intention.</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">🪶</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 07</div>
+          <div class="tip-title">Use Haiku for simple tasks</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Haiku handles grammar checks, quick translations, brainstorming, and formatting at a fraction of the cost of Sonnet or Opus. Saving your big-model budget for big tasks is the highest-leverage habit on this list.</p>
+        <div class="code-block">
+<span class="hi">Haiku</span>   → drafts, edits, quick answers     (low cost)
+<span class="hi">Sonnet</span>  → real work, analysis, coding     (mid cost)
+<span class="hi">Opus</span>    → deep research, hard problems    (high cost)
+        </div>
+        <p>Using Haiku for simple tasks can free up <strong>50–70%</strong> of your budget for things that actually need power.</p>
+        <span class="step-tag">◈ Right model. Right task.</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">⏱️</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 08</div>
+          <div class="tip-title">Spread your work across the day</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Claude uses a <strong>rolling 5-hour window</strong> — not a midnight reset. Tokens you used at 9am stop counting toward your limit by 2pm. Burning your entire allowance in one morning session wastes most of your daily capacity.</p>
+        <div class="callout callout-sydney">
+          🇦🇺 <strong>Sydney tip:</strong> Try splitting into three sessions — morning (~8–10am), a midday break (~1–2pm), and an evening wind-down (~7–9pm). Each session benefits from fresh headroom as old usage rolls off.
+        </div>
+        <span class="step-tag">◷ Morning → Midday → Evening</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">🌙</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 09</div>
+          <div class="tip-title">Do heavy work outside US peak hours</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>From 26 March 2026, Anthropic burns through your 5-hour limit faster during US peak hours — <strong>5am–11am Pacific Time on weekdays.</strong> Same prompt, higher cost to your limit.</p>
+        <div class="callout callout-sydney" id="sydney-peak-callout">
+          🇦🇺 Calculating your Sydney peak window…
+        </div>
+        <p>Schedule intensive work — long coding sessions, document analysis, big rewrites — outside that window. Evenings and weekends in Sydney are almost always off-peak.</p>
+        <span class="step-tag">🌙 Evenings &amp; weekends = free real estate</span>
+      </div></div>
+    </div>
+
+    <div class="tip">
+      <button class="tip-btn" onclick="toggleTip(this)">
+        <div class="tip-icon">🛡️</div>
+        <div class="tip-text">
+          <div class="tip-num">Habit 10</div>
+          <div class="tip-title">Enable overage as a safety net</div>
+        </div>
+        <span class="tip-chevron">⌄</span>
+      </button>
+      <div class="tip-body"><div class="tip-inner">
+        <p>Pro, Max 5x, and Max 20x subscribers can turn on <strong>Overage</strong> in Settings → Usage. When your session limit is hit, Claude doesn't stop — it switches to pay-as-you-go API rates and you set a monthly spending cap.</p>
+        <div class="callout callout-green">
+          💡 This isn't about saving tokens. It's about not losing your work right in the middle of something important.
+        </div>
+        <span class="step-tag">⚡ Settings → Usage → Enable Overage</span>
+      </div></div>
+    </div>
+
+  </div>
+
+  <!-- Daily checklist -->
+  <div class="checklist-card">
+    <div class="card-title">Daily checklist ✅</div>
+    <div class="card-sub">Tick these off as you go — your progress bar above will update.</div>
+    <div id="checklist">
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Edited messages instead of following up</span></label>
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Batched questions into single messages</span></label>
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Started a fresh chat after 15–20 messages</span></label>
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Used Haiku for at least one simple task</span></label>
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Turned off unused features</span></label>
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Spread sessions across the day</span></label>
+      <label class="check-row"><input type="checkbox" onchange="updateProgress(this)" /><span>Scheduled heavy work for off-peak hours</span></label>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div class="banner">
+    <div class="banner-emoji">🌙</div>
+    <h2>Sydney's golden rule</h2>
+    <p>Your evenings and weekends naturally fall <strong>outside US peak hours.</strong> That's when your tokens go furthest — save intensive work for then.</p>
+    <div class="time-grid">
+      <div class="time-slot"><div class="ts-label">Morning</div><div class="ts-val">8–10am</div></div>
+      <div class="time-slot"><div class="ts-label">Midday</div><div class="ts-val">1–2pm</div></div>
+      <div class="time-slot"><div class="ts-label">Best 🌟</div><div class="ts-val">7–10pm</div></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Original thread by <a href="https://x.com/0x_kaize" target="_blank">@0x_kaize</a> · Adapted &amp; designed for Sydney, Australia</p>
+    <p style="margin-top:6px;font-style:italic;color:#a8a29e">Claude counts tokens, not messages.</p>
+  </footer>
+
+</div>
+<script>
+  function toggleTip(btn) {
+    btn.closest('.tip').classList.toggle('open');
+  }
+
+  function updateProgress(cb) {
+    const rows = document.querySelectorAll('#checklist .check-row');
+    let checked = 0;
+    rows.forEach(r => {
+      const inp = r.querySelector('input');
+      if (inp.checked) { checked++; r.classList.add('checked'); }
+      else { r.classList.remove('checked'); }
+    });
+    const total = rows.length;
+    document.getElementById('prog-count').textContent = `${checked} / ${total}`;
+    document.getElementById('prog-fill').style.width = `${(checked / total) * 100}%`;
+  }
+
+  function getSydneyOffset() {
+    const now = new Date();
+    const s = now.toLocaleString('en-US', { timeZone: 'Australia/Sydney', hour: 'numeric', hour12: false });
+    let diff = parseInt(s) - now.getUTCHours();
+    if (diff < -12) diff += 24;
+    if (diff > 12) diff -= 24;
+    return diff;
+  }
+
+  function fmt12(h) {
+    h = ((h % 24) + 24) % 24;
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    return `${h12}${h < 12 ? 'am' : 'pm'}`;
+  }
+
+  let tipUpdated = false;
+
+  function updateClock() {
+    const now = new Date();
+
+    // Sydney clock
+    document.getElementById('syd-time').textContent = now.toLocaleTimeString('en-AU', {
+      timeZone: 'Australia/Sydney', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+    });
+
+    // Peak window: US 5am–11am PDT (UTC-7) = UTC 12:00–18:00
+    const sydOff = getSydneyOffset();
+    const peakStartSyd = ((5 + 7) + sydOff) % 24; // 5am PDT → UTC 12 → Syd
+    const peakEndSyd   = ((11 + 7) + sydOff) % 24; // 11am PDT → UTC 18 → Syd
+
+    document.getElementById('peak-window').textContent = `${fmt12(peakStartSyd)} – ${fmt12(peakEndSyd)}`;
+
+    const sydNow = new Date(now.toLocaleString('en-US', { timeZone: 'Australia/Sydney' }));
+    const isWeekday = sydNow.getDay() >= 1 && sydNow.getDay() <= 5;
+    const h = sydNow.getHours() + sydNow.getMinutes() / 60;
+
+    let isPeak = false;
+    if (isWeekday) {
+      isPeak = peakStartSyd > peakEndSyd
+        ? (h >= peakStartSyd || h < peakEndSyd)
+        : (h >= peakStartSyd && h < peakEndSyd);
+    }
+
+    const badge = document.getElementById('peak-badge');
+    const txt   = document.getElementById('peak-text');
+    if (!isWeekday) {
+      badge.className = 'peak-badge good'; txt.textContent = 'Weekend — off-peak ✓';
+    } else if (isPeak) {
+      badge.className = 'peak-badge warn'; txt.textContent = 'Peak hours — go easy';
+    } else {
+      badge.className = 'peak-badge good'; txt.textContent = 'Off-peak — good to go ✓';
+    }
+
+    // Update tip 09 callout once
+    if (!tipUpdated) {
+      const el = document.getElementById('sydney-peak-callout');
+      if (el) {
+        const w = `${fmt12(peakStartSyd)} – ${fmt12(peakEndSyd)} AEST`;
+        el.innerHTML = `🇦🇺 <strong>For Sydney:</strong> US peak maps to <strong>${w}</strong> on weekdays — that's overnight into early morning your time. Your entire working day is off-peak. Just avoid heavy sessions after ${fmt12(peakStartSyd)}.`;
+        tipUpdated = true;
+      }
+    }
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
